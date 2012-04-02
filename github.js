@@ -14,12 +14,25 @@
   Github = window.Github = function(options) {
     var username = options.username;
     var password = options.password;
+    var access_token = options.access_token;
 
     // Util
     // -------
 
     function _request(method, path, data, cb) {
-      $.ajax({
+      if(access_token) {
+        data['access_token'] = access_token;
+        $.ajax({
+          type: method,
+          url: API_URL + path,
+          data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/x-www-form-urlencoded',
+          success: function(res) { cb(null, res); },
+          error: function(err) { cb(err); }
+        });
+      } else {
+        $.ajax({
           type: method,
           url: API_URL + path,
           data: JSON.stringify(data),
@@ -28,7 +41,8 @@
           success: function(res) { cb(null, res); },
           error: function(err) { cb(err); },
           headers : { Authorization : 'Basic ' + Base64.encode(username + ':' + password) }
-      });
+        });
+      }
     }
 
     // USER API
