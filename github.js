@@ -21,6 +21,7 @@
 
     function _request(method, path, data, cb) {
       if(access_token) {
+        if(!data) data = {};
         data['access_token'] = access_token;
         $.ajax({
           type: method,
