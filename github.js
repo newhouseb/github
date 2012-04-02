@@ -23,7 +23,7 @@
       if(access_token) {
         $.ajax({
           type: method,
-          url: API_URL + path + 'access_token='+access_token,
+          url: API_URL + path + '?access_token='+access_token,
           data: JSON.stringify(data),
           dataType: 'json',
           contentType: 'application/x-www-form-urlencoded',
